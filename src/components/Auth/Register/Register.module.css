@@ -1,0 +1,85 @@
+.registerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.logo {
+  height: 30px;
+  margin-right: 10px;
+}
+
+.container {
+  max-width: 500px;
+  margin: 100px auto;
+  padding: 0 50px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #fff;
+  -webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+  -moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+  box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+}
+
+.title {
+  font-size: 26px;
+  font-weight: bold;
+  margin-left: 42%;
+  margin-top: 10%;  
+  background: linear-gradient(to right, #04385D80,  #160A77);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text; /* для Firefox */
+  color: transparent;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  margin-left: 20%;
+  font-size: 16px;
+  text-align: center;
+  color: white;
+  width: 55%;
+  margin-bottom: 20px;
+  padding: 18px;
+  border: 1px solid #fff;
+  border-radius: 4px;
+  background: linear-gradient(to right, #04385D80,  #160A77);
+  -webkit-background-clip: padding-box;
+  -webkit-text-fill-color: white;
+}
+
+.button {
+  padding: 16px 13px;
+  background: linear-gradient(to right, #04385D80,  #160A77);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 313px;
+  margin-left: 20%;
+  font-size: 16px;
+}
+
+.button:hover {
+  background: #0056b3;
+}
+
+.link {
+  color: #111;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration: none;
+  padding-bottom: 6px;
+}
+
+span{
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 600;
+}

@@ -1,0 +1,184 @@
+.container {
+  padding: 20px;
+  max-width: 60vw;
+  margin: 0 auto;
+  margin-top: 10vh; 
+}
+
+.header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 35vh;
+  background: linear-gradient(to right, #160A77, #04385D80);
+  color: white;
+  border-bottom-right-radius: 15px;
+  border-bottom-left-radius: 15px;
+}
+
+.main{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 21%;
+}
+
+.divki{
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: linear-gradient(to right, #D2D9E3, #BDBBD8);
+  cursor: pointer;
+}
+.divki:hover {
+  background: linear-gradient(to right, #A9C1E1, #6B7AAE);
+  transition: 1.7s;
+}
+
+.text{
+  position: absolute;
+  top: 60%;
+  text-align: center;
+  color: black;
+}
+
+.icon {
+  width: 50px;
+  height: 40px;
+}
+
+.buttonDivki{
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: bold;
+  margin-top: 4%;
+}
+
+.balance {
+  font-size: 30px;
+}
+
+.welcome {
+  margin: 10px 0;
+  color: green;
+}
+
+.warning {
+  margin: 10px 0;
+  color: red;
+}
+
+.button {
+  padding: 8px 16px;
+  background: #007bff;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+}
+
+.button:hover {
+  background: #0056b3;
+}
+
+.titleRecent {
+  font-size: 30px;
+  margin-top: 15%;
+  margin-right: 90%;
+}
+
+.recent{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 13%;
+
+}
+
+.recentItem{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.divkiRecentIncome {
+  width: 130px;
+  height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: #DCFFF7;
+  cursor: pointer;
+}
+
+.divkiRecentExpense{
+  width: 130px;
+  height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: #FFCFCF;
+  cursor: pointer;
+}
+
+.divkiRecentText{
+  position: relative;
+  top: -40%;
+  left: 17%;
+  text-align: start;
+}
+
+.divkiRecentText2{
+  width: 30%;
+  position: relative;
+  top: -72%;
+  left: 50%;
+  text-align: start;
+}
+
+.text1{
+  font-weight: 600;
+}
+
+.text2{
+  font-weight: 600;  
+}
+
+.loaderWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 120px;
+  gap: 8px;
+}
+
+.loader {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #007bff;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.disabled {
+  opacity: 0.7;
+  pointer-events: none;
+}
