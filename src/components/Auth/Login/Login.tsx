@@ -1,33 +1,44 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
+import { toast } from "react-toastify"; // ✅ импортируем уведомления
+import "react-toastify/dist/ReactToastify.css"; // ✅ стили уведомлений
+
 import styles from "./Login.module.css";
 
-const Login = () => {
+export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // достаём список зарегистрированных пользователей из localStorage
     const users = JSON.parse(localStorage.getItem("users") || "[]");
 
-    // ищем пользователя с совпадающими именем и паролем
     const found = users.find(
       (u: { username: string; password: string }) =>
         u.username === username && u.password === password
     );
 
     if (found) {
-      login(username); // сохраняем активного пользователя через контекст
-      localStorage.setItem("user", JSON.stringify(found)); // сохраняем текущего юзера
+      login(username);
+      localStorage.setItem("user", JSON.stringify(found));
+
+      toast.success(`Welcome back, ${username}! 👋`, {
+        position: "top-right",
+        autoClose: 2000,
+        theme: "colored",
+      });
+
       navigate("/dashboard");
     } else {
-      setError("Invalid username or password");
+      toast.error("Invalid username or password ❌", {
+        position: "top-right",
+        autoClose: 2500,
+        theme: "colored",
+      });
     }
   };
 
@@ -60,13 +71,9 @@ const Login = () => {
         </button>
       </form>
 
-      {error && <p className={styles.error}>{error}</p>}
-
       <p className={styles.link} onClick={() => navigate("/register")}>
         Don’t have an account? <span>Register</span>
       </p>
     </div>
   );
-};
-
-export default Login;
+}

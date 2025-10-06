@@ -1,41 +1,82 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import styles from "./Dashboard.module.css"; 
 
-const Dashboard = () => {
+export default function Dashboard() {
   const [balance, setBalance] = useState<number>(0);
   const [recent, setRecent] = useState<
     { id: number; name: string; amount: number; time: string; type: "income" | "expense" }[]
   >([]);
   const [loading, setLoading] = useState(false);
-  // Симуляция загрузки данных (API запрос)
+
+  const navigate = useNavigate();
+
   const fetchData = async () => {
     setLoading(true);
 
-    await new Promise((res) => setTimeout(res, 1500)); // имитация 1.5 сек запроса
+    try {
+      const ETHERSCAN_KEY = import.meta.env.VITE_ETHERSCAN_KEY;
+      const WALLET = "0x742d35Cc6634C0532925a3b844Bc454e4438f44e"; // Пример адреса
 
-    const fakeData = {
-      balance: Math.floor(Math.random() * 20000),
-      recent: [
-        {
-          id: 1,
-          name: "From Binance",
-          amount: (100 + Math.random() * 200).toFixed(3),
-          time: "12:00",
-          type: "income",
-        },
-        {
-          id: 2,
-          name: "From Kaspi",
-          amount: (50 + Math.random() * 100).toFixed(3),
-          time: "16:00",
-          type: "expense",
-        },
-      ],
-    };
+      if (ETHERSCAN_KEY) {
+        const res = await axios.get("https://api.etherscan.io/api", {
+          params: {
+            module: "account",
+            action: "txlist",
+            address: WALLET,
+            startblock: 0,
+            endblock: 99999999,
+            sort: "desc",
+            apikey: import.meta.env.VITE_ETHERSCAN_KEY,
+          },
+        });
 
-    setBalance(fakeData.balance);
-    setRecent(fakeData.recent);
-    setLoading(false);
+        const txs = res.data.result.slice(0, 5); // последние 5 транзакций
+        const total = txs.reduce((sum: number, tx: any) => sum + parseFloat(tx.value), 0);
+
+        setBalance(total / 1e18);
+
+        const mapped = txs.map((tx: any, i: number) => ({
+          id: i + 1,
+          name: tx.to ? `To ${tx.to.slice(0, 6)}...` : "Unknown",
+          amount: (parseFloat(tx.value) / 1e18).toFixed(4),
+          time: new Date(tx.timeStamp * 1000).toLocaleTimeString(),
+          type: tx.from.toLowerCase() === WALLET.toLowerCase() ? "expense" : "income",
+        }));
+
+        setRecent(mapped);
+      } else {
+        // Если API ключа нет — генерируем фейковые данные
+        await new Promise((res) => setTimeout(res, 1500));
+        const fakeData = {
+          balance: Math.floor(Math.random() * 20000),
+          recent: [
+            {
+              id: 1,
+              name: "From Binance",
+              amount: (100 + Math.random() * 200).toFixed(3),
+              time: "12:00",
+              type: "income",
+            },
+            {
+              id: 2,
+              name: "From Kaspi",
+              amount: (50 + Math.random() * 100).toFixed(3),
+              time: "16:00",
+              type: "expense",
+            },
+          ],
+        };
+
+        setBalance(fakeData.balance);
+        setRecent(fakeData.recent);
+      }
+    } catch (err) {
+      console.error("Error fetching data:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -65,8 +106,8 @@ const Dashboard = () => {
 
           <div className={styles.divki}>
             <button className={styles.buttonDivki}>
-              <img src="/images/Send.png" alt="" className={styles.icon} />
-              <p className={styles.text}>Send</p>
+              <img src="/images/notification.png" alt="" className={styles.icon} />
+              <p className={styles.text} style={{ marginLeft: "-20px" }} >Notifications</p>
             </button>
           </div>
 
@@ -78,9 +119,9 @@ const Dashboard = () => {
           </div>
 
           <div className={styles.divki}>
-            <button className={styles.buttonDivki}>
-              <img src="/images/up.png" alt="" className={styles.icon} />
-              <p className={styles.text}>Top Up</p>
+            <button className={styles.buttonDivki} onClick={() => navigate("/BalanceChart")}>
+              <img src="/images/monitoring.png" alt="" className={styles.icon} />
+              <p className={styles.text}>Analytic</p>
             </button>
           </div>
         </div>
@@ -123,6 +164,4 @@ const Dashboard = () => {
       </div>
     </div>
   );
-};
-
-export default Dashboard;
+}

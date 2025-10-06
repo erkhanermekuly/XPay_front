@@ -1,40 +1,46 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import styles from "./Register.module.css";
 
-const Register = () => {
+export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // достаём уже зарегистрированных пользователей (если есть)
     const users = JSON.parse(localStorage.getItem("users") || "[]");
 
-    // проверяем — есть ли пользователь с таким же email
     const existing = users.find((u: { email: string }) => u.email === email);
 
     if (existing) {
-      setError("User with this email already exists");
+      toast.error("User with this email already exists ❌", {
+        position: "top-right",
+        autoClose: 2500,
+        theme: "colored",
+      });
       return;
     }
 
-    // создаём нового пользователя
     const newUser = { username: name, email, password };
-
-    // добавляем его в массив и сохраняем в localStorage
     users.push(newUser);
     localStorage.setItem("users", JSON.stringify(users));
 
-    // сразу логиним и переходим в Dashboard
     login(name);
     localStorage.setItem("user", JSON.stringify(newUser));
+
+    toast.success("Account created successfully 🎉", {
+      position: "top-right",
+      autoClose: 2000,
+      theme: "colored",
+    });
+
     navigate("/dashboard");
   };
 
@@ -52,6 +58,7 @@ const Register = () => {
           value={name}
           onChange={(e) => setName(e.target.value)}
           className={styles.input}
+          required
         />
 
         <input
@@ -60,6 +67,7 @@ const Register = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className={styles.input}
+          required
         />
 
         <input
@@ -68,6 +76,7 @@ const Register = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           className={styles.input}
+          required
         />
 
         <button type="submit" className={styles.button}>
@@ -75,14 +84,9 @@ const Register = () => {
         </button>
       </form>
 
-
-      {error && <p className={styles.error}>{error}</p>}
-
       <p className={styles.link} onClick={() => navigate("/login")}>
         Already have an account? <span>Login</span>
       </p>
     </div>
   );
-};
-
-export default Register;
+}
