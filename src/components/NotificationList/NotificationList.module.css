@@ -1,0 +1,17 @@
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+    background: rgba(255, 255, 255, 0.06);
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.empty {
+    background: linear-gradient(to right, #04385D80,  #160A77);
+    color: #aaa;
+    text-align: center;
+    margin-top: 30px;
+    font-size: 14px;
+}

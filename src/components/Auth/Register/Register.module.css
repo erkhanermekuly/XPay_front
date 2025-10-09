@@ -52,6 +52,16 @@
   background: linear-gradient(to right, #04385D80,  #160A77);
   -webkit-background-clip: padding-box;
   -webkit-text-fill-color: white;
+  outline: none;
+}
+
+.input:-webkit-autofill,
+.input:-webkit-autofill:focus,
+.input:-webkit-autofill:hover,
+.input:-webkit-autofill:active {
+  -webkit-text-fill-color: #222 !important;
+  background: linear-gradient(to right, #04385D80,  #160A77) !important;
+  box-shadow: 0 0 0px 1000px #04385D80 inset !important;
 }
 
 .button {

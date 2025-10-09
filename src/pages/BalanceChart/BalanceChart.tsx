@@ -7,7 +7,7 @@ export default function BalanceChart() {
 
     return (
     <div className={styles.container}>
-        <span onClick={() => navigate("/dashboard")} className={styles.backSpan}>&lt;-</span>
+        <span onClick={() => navigate("/")} className={styles.backSpan}>&lt;-</span>
         <h2 className={styles.title}>Ethereum Analytics</h2>
         <ChartCard />
     </div>

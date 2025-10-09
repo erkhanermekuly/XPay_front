@@ -4,13 +4,15 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 // pages & components
+import Home from "./pages/Home/Home";
 import Login from "./components/Auth/Login/Login";
 import Register from "./components/Auth/Register/Register";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import BalanceChart from "./pages/BalanceChart/BalanceChart";
+import Notifications from "./pages/Notifications/Notifications";
 
 /**
- * Компонент PrivateRoute защищает маршруты:
+ * PrivateRoute — защищает маршруты
  * Если пользователь не авторизован, перенаправляем его на /login
  */
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
@@ -22,37 +24,29 @@ const App = () => {
   return (
     <AuthProvider>
       <Router>
-        {/* ToastContainer — глобальный компонент уведомлений */}
+        {/* Уведомления (toastify) */}
         <ToastContainer
           position="top-right"
-          autoClose={3000} // уведомления исчезают через 3 секунды
+          autoClose={3000}
           hideProgressBar={false}
           newestOnTop={false}
           closeOnClick
-          rtl={false}
           pauseOnFocusLoss
           draggable
           pauseOnHover
-          theme="colored" // стиль уведомлений
+          theme="colored"
         />
 
-        {/* Все маршруты приложения */}
+        {/* Маршрутизация */}
         <Routes>
-          {/* Если пользователь просто зайдет на / — переадресуем на /login */}
-          <Route path="/" element={<Navigate to="/login" replace />} />
+          {/* Главная страница — поиск кошелька */}
+          <Route path="/" element={<Home />} />
 
-          {/* Страницы аутентификации */}
+          {/* Аутентификация */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
-          <Route
-            path="/balancechart"
-            element={
-              <PrivateRoute>
-                <BalanceChart />
-              </PrivateRoute>
-            }
-          />
+          {/* Дашборд и графики — защищённые маршруты */}
           <Route
             path="/dashboard"
             element={
@@ -61,6 +55,25 @@ const App = () => {
               </PrivateRoute>
             }
           />
+          <Route
+            path="/notifications"
+            element={
+              <PrivateRoute>
+                <Notifications />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/balancechart"
+            element={
+              <PrivateRoute>
+                <BalanceChart />
+              </PrivateRoute>
+            }
+          />
+
+          {/* Неверный маршрут → редирект на / */}
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Router>
     </AuthProvider>

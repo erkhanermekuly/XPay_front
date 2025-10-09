@@ -32,7 +32,7 @@ export default function Login() {
         theme: "colored",
       });
 
-      navigate("/dashboard");
+      navigate("/home");
     } else {
       toast.error("Invalid username or password ❌", {
         position: "top-right",
